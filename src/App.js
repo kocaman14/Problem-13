@@ -5,19 +5,19 @@ import { useReducer, useState } from 'react'
 const reducer = (state, action)=>{
 if(action.type==="NAME"){
 const newName=action.payload
-return{...state,name:newName}
+return{...state,name:newName,charge:false}
 }
 if(action.type==="SURNAME"){
   const newSurName=action.payload
-  return{...state,surName:newSurName}
+  return{...state,surName:newSurName,charge:false}
 }
 if(action.type==="CLOCK"){
   const newClock=action.payload
-  return{...state,clock:newClock}
+  return{...state,clock:newClock,charge:false}
 }
 
 if(action.type==="SEND"){
-  return { ...initialState }
+  return {...state,charge:true }
 }
 
 
@@ -29,6 +29,7 @@ const initialState = {
   name:"",
   surName:"",
   clock:"",
+  charge:null
 };
 
 
@@ -122,7 +123,6 @@ export default function PersonalInfo() {
           <div className='mt-8 flex'>
             <button
             disabled={newButton}
-          
               type='submit'
               className={`rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 ${
                 !newButton ? 'bg-indigo-500 hover:bg-indigo-400' : 'bg-gray-400 cursor-not-allowed'
@@ -133,9 +133,15 @@ export default function PersonalInfo() {
           </div>
         </form>
       </div>
-      <div>
-
-      </div>
+      {state.charge?<div className='px-4 py-4'>
+        <h3 className='text-white text-lg'>Girdiğiniz Bilgiler:</h3>
+        <div className='mt-2'>
+          <div className='text-gray-400'>Ad: {state.name}</div>
+          <div className='text-gray-400'>Soyad: {state.surName}</div>
+          <div className='text-gray-400'>Zaman Dilimi: {state.clock}</div>
+        </div>
+      </div>:null}
+      
     </div>
   )
 }
